@@ -12,12 +12,7 @@ public class ItemTest {
 
         //given
         //when
-        Item item = Item.builder()
-                .id(1L)
-                .name("우유")
-                .location(Location.A)
-                .count(200)
-                .build();
+        Item item = setUpItem();
 
         //then
         Assertions.assertNotNull(item);
@@ -33,12 +28,7 @@ public class ItemTest {
     public void decrease_count_OnSuccess() throws Exception{
 
         //given
-        Item item = Item.builder()
-                .id(1L)
-                .name("우유")
-                .location(Location.A)
-                .count(200)
-                .build();
+        Item item = setUpItem();
         //when
         item.decreaseCount(100);
 
@@ -52,12 +42,7 @@ public class ItemTest {
     public void check_count_minus() throws Exception{
 
         //given
-        Item item = Item.builder()
-                .id(1L)
-                .name("우유")
-                .location(Location.A)
-                .count(200)
-                .build();
+        Item item = setUpItem();
 
         //when
         item.decreaseCount(250);
@@ -67,6 +52,14 @@ public class ItemTest {
 
     }
 
+    public Item setUpItem(){
+        return Item.builder()
+                .id(1L)
+                .name("우유")
+                .location(Location.A)
+                .count(200)
+                .build();
+    }
 
 
 }

@@ -1,9 +1,6 @@
 package com.kurly_hack_festa.server.item;
 
-import com.kurly_hack_festa.server.item.dto.DtoOfCreateItem;
-import com.kurly_hack_festa.server.item.dto.DtoOfCreatedItem;
-import com.kurly_hack_festa.server.item.dto.DtoOfGetItem;
-import com.kurly_hack_festa.server.item.dto.DtoOfGetItemList;
+import com.kurly_hack_festa.server.item.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -133,6 +130,24 @@ public class ItemService {
                 .itemList(dtoOfGetItemList)
                 .build();
 
+    }
+
+    /**
+     * 상품 수정 메서드
+     * @param dtoOfUpdateItem : 요청자가 요청한 수정할 상품 내용 Dto
+     * @return : 상품 수정 후의 내용이 담긴 Dto
+     */
+    public DtoOfUpdatedItem updateItem(DtoOfUpdateItem dtoOfUpdateItem){
+        Item item = getItemEntityById(dtoOfUpdateItem.getId());
+        item.updateItem(dtoOfUpdateItem);
+
+        return DtoOfUpdatedItem.builder()
+                .id(item.getId())
+                .deliveryTime(item.getDeliveryTime())
+                .count(item.getCount())
+                .name(item.getName())
+                .location(item.getLocation())
+                .build();
     }
 
 }

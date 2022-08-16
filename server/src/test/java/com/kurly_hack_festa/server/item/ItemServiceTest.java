@@ -2,10 +2,7 @@ package com.kurly_hack_festa.server.item;
 
 
 import com.jayway.jsonpath.internal.Utils;
-import com.kurly_hack_festa.server.item.dto.DtoOfCreateItem;
-import com.kurly_hack_festa.server.item.dto.DtoOfCreatedItem;
-import com.kurly_hack_festa.server.item.dto.DtoOfGetItem;
-import com.kurly_hack_festa.server.item.dto.DtoOfGetItemList;
+import com.kurly_hack_festa.server.item.dto.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -214,6 +211,33 @@ public class ItemServiceTest {
 //
 //    }
     
+
+    @DisplayName("상품이 정상적으로 수정되어야 한다.")
+    @Test
+    public void update_item_test() throws Exception{
+
+        //given & mocking
+        Item item = setUpItem();
+        given(itemRepository.findById(anyLong())).willReturn(Optional.of(item));
+        DtoOfUpdateItem updateDto = DtoOfUpdateItem
+                .builder()
+                .id(1L)
+                .count(1)
+                .location(Location.L)
+                .name("수정후의 아이템이름")
+                .deliveryTime(LocalDate.now())
+                .build();
+        //when
+        DtoOfUpdatedItem actualResult = itemService.updateItem(updateDto);
+
+        //then
+        Assertions.assertEquals(updateDto.getCount(), actualResult.getCount());
+        Assertions.assertEquals(updateDto.getDeliveryTime(), actualResult.getDeliveryTime());
+        Assertions.assertEquals(updateDto.getLocation(), actualResult.getLocation());
+        Assertions.assertEquals(updateDto.getId(), actualResult.getId());
+        Assertions.assertEquals(updateDto.getName(), actualResult.getName());
+
+    }
 
 
 

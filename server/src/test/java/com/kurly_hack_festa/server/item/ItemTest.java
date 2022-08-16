@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.kurly_hack_festa.server.item.util.ItemUtil.setUpItem;
+
 public class ItemTest {
 
     @DisplayName("Item 객체는 정상적으로 생성되어야 한다.")
@@ -23,7 +25,7 @@ public class ItemTest {
 
     }
 
-    @DisplayName("item의 count 개수는 정상적으로 줄어들어야 한다.")
+    @DisplayName("item 의 count 개수는 정상적으로 줄어들어야 한다.")
     @Test
     public void decrease_count_OnSuccess() throws Exception{
 
@@ -52,14 +54,22 @@ public class ItemTest {
 
     }
 
-    public Item setUpItem(){
-        return Item.builder()
-                .id(1L)
-                .name("우유")
-                .location(Location.A)
-                .count(200)
-                .build();
+    @DisplayName("item의 count 가 plus될 경우 정상으로 개수가 증가해야한다.")
+    @Test
+    public void check_increase_count() throws Exception{
+
+        //given
+        Item sampleItem = setUpItem();
+
+        //when
+        sampleItem.increaseCount(100);
+
+        //then
+        Assertions.assertEquals(300, sampleItem.getCount());
+
     }
+
+
 
 
 }

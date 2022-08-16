@@ -3,6 +3,7 @@ package com.kurly_hack_festa.server.item.util;
 import com.kurly_hack_festa.server.item.Item;
 import com.kurly_hack_festa.server.item.Location;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +17,7 @@ public class ItemUtil {
                 .name("우유")
                 .location(Location.A)
                 .count(200)
-                .deliveryTime(LocalDateTime.now())
+                .deliveryTime(LocalDate.now())
                 .build();
     }
 }

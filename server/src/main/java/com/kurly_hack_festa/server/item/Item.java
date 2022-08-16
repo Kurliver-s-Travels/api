@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 /**
  * <h1>Item</h1>
@@ -58,7 +59,7 @@ public class Item {
      */
     @Column(name = "DELIVERY_TIME")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime deliveryTime;
+    private LocalDate deliveryTime;
 
     /**
      * decrease Count method

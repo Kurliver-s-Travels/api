@@ -2,10 +2,12 @@ package com.kurly_hack_festa.server.item;
 
 
 import com.kurly_hack_festa.server.item.dto.*;
+import com.kurly_hack_festa.server.item.exception.NotFoundItemException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +25,7 @@ public class ItemService {
      * @param dtoOfCreateItem : request of creating item dto
      * @return : response dto
      */
+    @Transactional
     public DtoOfCreatedItem createItem(DtoOfCreateItem dtoOfCreateItem){
 
         if(checkIsExists(dtoOfCreateItem.getName(), dtoOfCreateItem.getDeliveryTime())){

@@ -4,6 +4,7 @@ import com.kurly_hack_festa.server.item.Location;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -35,7 +36,7 @@ public class DtoOfCreatedItem {
     /**
      * 생성된 아이템 엔티티의 배송날짜
      */
-    private LocalDateTime deliveryTime;
+    private LocalDate deliveryTime;
 
     /**
      * 생성된 아이템 엔티티의 배송 수량

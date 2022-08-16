@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,6 +29,10 @@ public class Item {
     @Column(name = "LOCATION")
     @Enumerated(EnumType.STRING)
     private Location location;
+
+    @Column(name = "DELIVERY_TIME")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime deliveryTime;
 
     public int decreaseCount(int minusCount){
 

@@ -1,22 +1,21 @@
 package com.kurly_hack_festa.server.item;
 
 
+
 import com.jayway.jsonpath.internal.Utils;
 import com.kurly_hack_festa.server.item.dto.*;
-
+import com.kurly_hack_festa.server.item.dto.DtoOfCreateItem;
+import com.kurly_hack_festa.server.item.dto.DtoOfCreatedItem;
+import com.kurly_hack_festa.server.item.dto.DtoOfGetItem;
+import com.kurly_hack_festa.server.item.exception.NotFoundItemException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static com.kurly_hack_festa.server.item.util.ItemUtil.setUpItem;
@@ -31,18 +30,11 @@ public class ItemServiceTest {
 
     @Autowired
     private ItemService itemService;
-    @MockBean
-    private org.aspectj.weaver.Utils utils;
 
-    @MockBean
-    private Pageable pageable;
-
-    @MockBean
-    private Page<Item> itemMockList;
 
     @DisplayName("item 이 정상적으로 등록되어야 한다.")
     @Test
-    public void check_create_item_OnSuccess() throws Exception{
+    public void check_create_item_OnSuccess(){
 
         //given
         Item sampleItem = setUpItem();
@@ -64,7 +56,7 @@ public class ItemServiceTest {
 
     @DisplayName("item 이 사전에 등록되어있다면 사전에 등록한 item 에 개수만 추가한다.")
     @Test
-    public void check_preCreate_item() throws Exception{
+    public void check_preCreate_item(){
 
         //given & mocking
         Item item = setUpItem();
@@ -91,7 +83,7 @@ public class ItemServiceTest {
 
     @DisplayName("사전에 등록한 item 이고, 같은 날짜면 true 를 리턴한다.")
     @Test
-    public void add_item_preCreate_same_deliveryTime() throws Exception{
+    public void add_item_preCreate_same_deliveryTime(){
 
         //given & mocking
         Item sampleItem = setUpItem();
@@ -108,7 +100,7 @@ public class ItemServiceTest {
 
     @DisplayName("사전에 등록한 item 이고, 다른 날짜면 false 를 리턴한다.")
     @Test
-    public void add_item_preCreate_not_same_deliveryTime() throws Exception{
+    public void add_item_preCreate_not_same_deliveryTime(){
 
         //given & moking
         Item sampleItem = setUpItem();
@@ -125,7 +117,7 @@ public class ItemServiceTest {
 
     @DisplayName("findById일 경우 정상적으로 item 이 리턴되어야 한다.")
     @Test
-    public void check_getItemEntityById_OnSuccess() throws Exception{
+    public void check_getItemEntityById_OnSuccess(){
 
         //given & mocking
         Item sampleItem = setUpItem();
@@ -145,7 +137,7 @@ public class ItemServiceTest {
 
     @DisplayName("findByNameAndDeliveryTime일 경우 정상적으로 item이 리턴되어야 한다.")
     @Test
-    public void check_findByNameAndDeliveryTime_OnSuccess() throws Exception{
+    public void check_findByNameAndDeliveryTime_OnSuccess(){
 
         //given & mocking
         Item sampleItem = setUpItem();
@@ -166,7 +158,7 @@ public class ItemServiceTest {
 
     @DisplayName("아이템 1건이 정상적으로 조회되어야 한다.")
     @Test
-    public void get_information_item() throws Exception{
+    public void get_information_item(){
 
         //given & mocking
         Item item = setUpItem();
@@ -211,6 +203,33 @@ public class ItemServiceTest {
 //
 //    }
     
+        @DisplayName("id를 통해서 아이템을 찾지 못하였을 때, NotFoundItemException 예외가 발생해야한다.")
+        @Test
+        public void check_exception_onFindById() throws Exception{
+
+            //given & mocking
+            given(itemRepository.findById(anyLong())).willReturn(Optional.ofNullable(null));
+
+            //when & then
+            Assertions.assertThrows(NotFoundItemException.class, () -> {
+                itemService.getItemEntityById(1L);
+            });
+
+        }
+
+        @DisplayName("name, delivery를 통해서 아이템을 찾지 못하였을 떄, NotFoundItemException 예외가 발생해야한다.")
+        @Test
+        public void check_exception_OnFindByNameAndDeliveryTime(){
+
+            //given
+            given(itemRepository.findByNameAndDeliveryTime(anyString(), any())).willReturn(Optional.ofNullable(null));
+            //when & then
+            Assertions.assertThrows(NotFoundItemException.class, () -> {
+                itemService.getItemEntityByNameAndTime("1", LocalDate.now());
+            });
+
+        }
+
 
     @DisplayName("상품이 정상적으로 수정되어야 한다.")
     @Test

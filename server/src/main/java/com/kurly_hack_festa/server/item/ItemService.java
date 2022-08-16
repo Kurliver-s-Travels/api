@@ -1,5 +1,6 @@
 package com.kurly_hack_festa.server.item;
 
+
 import com.kurly_hack_festa.server.item.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -74,7 +75,8 @@ public class ItemService {
      */
     public Item getItemEntityByNameAndTime(String name, LocalDate deliveryTime){
         //fixme .get -> elseThrow로 고쳐야함
-        return itemRepository.findByNameAndDeliveryTime(name, deliveryTime).get();
+        return itemRepository.findByNameAndDeliveryTime(name, deliveryTime)
+                .orElseThrow(() -> new NotFoundItemException("등록되지 않은 상품입니다."));
     }
 
     /**
@@ -84,7 +86,8 @@ public class ItemService {
      */
     public Item getItemEntityById(Long id){
         //fixme .get -> elseThrow로 고쳐야함
-        return itemRepository.findById(id).get();
+        return itemRepository.findById(id)
+                .orElseThrow(() -> new NotFoundItemException("등록되지 않은 상품입니다."));
     }
 
     /**

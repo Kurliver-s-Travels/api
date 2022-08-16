@@ -45,4 +45,11 @@ public class Item {
         return count;
     }
 
+    public int increaseCount(int plusCount){
+
+        this.count = count + plusCount;
+
+        return count;
+    }
+
 }

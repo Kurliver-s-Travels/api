@@ -3,13 +3,10 @@ package com.kurly_hack_festa.server.item;
 import com.kurly_hack_festa.server.common.response.Response;
 import com.kurly_hack_festa.server.item.dto.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <h1>ItemController</h1>
@@ -83,6 +80,19 @@ public class ItemController {
         return new ResponseEntity(response, HttpStatus.OK);
 
 
+    }
+
+    /**
+     * 상품 수정 메서드
+     * @param dtoOfUpdateItem : 요청자가 수정하려는 데이터가 담겨있는 상품 정보 dto
+     * @return : 수정 후의 http 응답
+     */
+    @PutMapping("/api/item")
+    public ResponseEntity updateItem(@RequestBody DtoOfUpdateItem dtoOfUpdateItem){
+
+        Response response = createResponse("상품이 수정되었습니다.", itemService.updateItem(dtoOfUpdateItem));
+
+        return new ResponseEntity(response, HttpStatus.OK);
     }
 
     /**

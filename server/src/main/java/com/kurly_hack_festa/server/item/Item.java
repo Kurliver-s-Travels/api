@@ -1,5 +1,6 @@
 package com.kurly_hack_festa.server.item;
 
+import com.kurly_hack_festa.server.item.dto.DtoOfUpdateItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -83,10 +84,22 @@ public class Item {
      * @return : 추가된 후 수량
      */
     public int increaseCount(int plusCount){
-
         this.count = count + plusCount;
 
         return count;
+    }
+
+    /**
+     * 아이템의 내용을 수정하기 위한 메서드
+     * @param dtoOfUpdateItem : 사용자가 요청한 아이템 수정 데이터 dto
+     * @return : 수정한 후의 아이템 내용
+     */
+    public Item updateItem(DtoOfUpdateItem dtoOfUpdateItem){
+        this.count = dtoOfUpdateItem.getCount();
+        this.deliveryTime = dtoOfUpdateItem.getDeliveryTime();
+        this.name = dtoOfUpdateItem.getName();
+        this.location = dtoOfUpdateItem.getLocation();
+        return this;
     }
 
 }

@@ -1,7 +1,6 @@
 package com.kurly_hack_festa.server.common.response;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 
 /**
@@ -11,6 +10,8 @@ import lombok.Getter;
  */
 @Builder
 @Getter
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Response<T> {
 
     /**

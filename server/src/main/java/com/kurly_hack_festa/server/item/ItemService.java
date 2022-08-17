@@ -1,13 +1,13 @@
 package com.kurly_hack_festa.server.item;
 
-import com.kurly_hack_festa.server.item.dto.DtoOfCreateItem;
-import com.kurly_hack_festa.server.item.dto.DtoOfCreatedItem;
-import com.kurly_hack_festa.server.item.dto.DtoOfGetItem;
-import com.kurly_hack_festa.server.item.dto.DtoOfGetItemList;
+
+import com.kurly_hack_festa.server.item.dto.*;
+import com.kurly_hack_festa.server.item.exception.NotFoundItemException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,6 +25,7 @@ public class ItemService {
      * @param dtoOfCreateItem : request of creating item dto
      * @return : response dto
      */
+    @Transactional
     public DtoOfCreatedItem createItem(DtoOfCreateItem dtoOfCreateItem){
 
         if(checkIsExists(dtoOfCreateItem.getName(), dtoOfCreateItem.getDeliveryTime())){
@@ -77,7 +78,8 @@ public class ItemService {
      */
     public Item getItemEntityByNameAndTime(String name, LocalDate deliveryTime){
         //fixme .get -> elseThrow로 고쳐야함
-        return itemRepository.findByNameAndDeliveryTime(name, deliveryTime).get();
+        return itemRepository.findByNameAndDeliveryTime(name, deliveryTime)
+                .orElseThrow(() -> new NotFoundItemException("등록되지 않은 상품입니다."));
     }
 
     /**
@@ -87,7 +89,8 @@ public class ItemService {
      */
     public Item getItemEntityById(Long id){
         //fixme .get -> elseThrow로 고쳐야함
-        return itemRepository.findById(id).get();
+        return itemRepository.findById(id)
+                .orElseThrow(() -> new NotFoundItemException("등록되지 않은 상품입니다."));
     }
 
     /**
@@ -133,6 +136,24 @@ public class ItemService {
                 .itemList(dtoOfGetItemList)
                 .build();
 
+    }
+
+    /**
+     * 상품 수정 메서드
+     * @param dtoOfUpdateItem : 요청자가 요청한 수정할 상품 내용 Dto
+     * @return : 상품 수정 후의 내용이 담긴 Dto
+     */
+    public DtoOfUpdatedItem updateItem(DtoOfUpdateItem dtoOfUpdateItem){
+        Item item = getItemEntityById(dtoOfUpdateItem.getId());
+        item.updateItem(dtoOfUpdateItem);
+
+        return DtoOfUpdatedItem.builder()
+                .id(item.getId())
+                .deliveryTime(item.getDeliveryTime())
+                .count(item.getCount())
+                .name(item.getName())
+                .location(item.getLocation())
+                .build();
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
  *     Request Dto of get itemEntity List
  * </p>
  * <p>
- *     특정 배송 날짜의 아이템 엔티티를 page처리하여 조회하는 메서드
+ *     특정 배송 날짜의 아이템 엔티티를 page처리하여 조회하기위한 request dto
  * </p>
  *
  * @see com.kurly_hack_festa.server.item.ItemController
